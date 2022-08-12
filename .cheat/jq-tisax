@@ -1,0 +1,6 @@
+# Afficher la partie 7.1.1
+yq  '.catalogs[].chapters[].assessments[] | select (.isa == "7.1")' tisax.yml
+y
+# Afficher les noms de toutes les parties
+yq '.catalogs[].chapters[].chapter' tisax.yml
+
