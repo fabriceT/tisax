@@ -5,7 +5,7 @@ import (
 )
 
 func TestGetQuestion(t *testing.T) {
-	LoadFile("../../tisax.yml")
+	LoadYAML("../../tisax.yml")
 
 	catalogs := GetAllCatalogs()
 
@@ -30,7 +30,7 @@ func TestGetQuestion(t *testing.T) {
 }
 
 func TestGetAllQuestions(t *testing.T) {
-	LoadFile("../../tisax.yml")
+	LoadYAML("../../tisax.yml")
 
 	type ResultTest struct {
 		name     string
@@ -60,5 +60,27 @@ func TestGetAllQuestions(t *testing.T) {
 			},
 		)
 
+	}
+}
+
+func TestLoadEvalution(t *testing.T) {
+	LoadYAML("../../tisax.yml")
+	catalogs := GetAllCatalogs()
+
+	question := catalogs[0].GetQuestion("7.1.1")
+	eval, err := question.LoadResult()
+	if err != nil {
+		t.Log("Evaluation error", err)
+		t.Fail()
+	}
+
+	if eval.Note != "1" {
+		t.Log("Expected 1, got", eval.Note)
+		t.Fail()
+	}
+
+	if eval.Note == "" {
+		t.Log("incorrect eval.Text", eval.Text)
+		t.Fail()
 	}
 }

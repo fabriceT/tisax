@@ -21,7 +21,6 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/FabriceT/tisax/pkg/evaluation"
 	"github.com/spf13/viper"
 )
 
@@ -43,10 +42,10 @@ var rootCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
+
 	cobra.CheckErr(rootCmd.Execute())
 
-	evaluation.LoadFile("tisax.tml")
-	evaluation.GetAllCatalogs()
+	//evaluation.GetAllCatalogs()
 }
 
 func init() {

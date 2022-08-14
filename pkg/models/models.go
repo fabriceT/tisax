@@ -1,8 +1,11 @@
 package models
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
+	"os"
+	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -79,4 +82,50 @@ func (q *QuestionEntry) GetQuestionResultPath() (string, error) {
 	}
 
 	return fmt.Sprintf("./evaluation/%s.md", strings.ToLower(q.Isa)), nil
+}
+
+type EvaluationResult struct {
+	Note string
+	Text string
+}
+
+func (q *QuestionEntry) LoadResult() (EvaluationResult, error) {
+	eval := EvaluationResult{
+		Note: "0",
+		Text: "",
+	}
+
+	re, err := regexp.Compile(`NOTE=(\d)`)
+	if err != nil {
+		panic("Woops")
+	}
+
+	path, err := q.GetQuestionResultPath()
+	if err != nil {
+		return eval, err
+	}
+
+	file, err := os.Open(path)
+	if err != nil {
+		return eval, err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if re.Match([]byte(line)) {
+			results := re.FindStringSubmatch(line)
+			// TODO Add check
+			eval.Note = string(results[1])
+		} else {
+			eval.Text += line + "\n"
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println(err)
+	}
+
+	return eval, nil
 }

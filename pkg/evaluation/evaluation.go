@@ -20,7 +20,7 @@ func LoadString(content string) error {
 	return nil
 }
 
-func LoadFile(filename string) error {
+func LoadYAML(filename string) error {
 
 	yaml, err := os.Open(filename)
 	if err != nil {
