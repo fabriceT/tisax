@@ -1,11 +1,8 @@
 package models
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
-	"os"
-	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -68,64 +65,25 @@ func (c *CatalogEntry) GetAllQuestions() (results []QuestionEntry) {
 	results = []QuestionEntry{}
 
 	for _, chapter := range c.Chapters {
-		for _, assessment := range chapter.Assessments {
-			results = append(results, assessment.Questions...)
-		}
+		results = append(results, chapter.GetAllQuestions()...)
 	}
 
 	return
 }
 
-func (q *QuestionEntry) GetQuestionResultPath() (string, error) {
+func (c *ChaptersEntry) GetAllQuestions() (results []QuestionEntry) {
+	results = []QuestionEntry{}
+	for _, assessment := range c.Assessments {
+		results = append(results, assessment.Questions...)
+	}
+
+	return
+}
+
+func (q *QuestionEntry) GetQuestionResultPath(evaldir string) (string, error) {
 	if q.Isa == "" {
 		return "", errors.New("question doesn't contains ISA code")
 	}
 
-	return fmt.Sprintf("./evaluation/%s.md", strings.ToLower(q.Isa)), nil
-}
-
-type EvaluationResult struct {
-	Note string
-	Text string
-}
-
-func (q *QuestionEntry) LoadResult() (EvaluationResult, error) {
-	eval := EvaluationResult{
-		Note: "0",
-		Text: "",
-	}
-
-	re, err := regexp.Compile(`NOTE=(\d)`)
-	if err != nil {
-		panic("Woops")
-	}
-
-	path, err := q.GetQuestionResultPath()
-	if err != nil {
-		return eval, err
-	}
-
-	file, err := os.Open(path)
-	if err != nil {
-		return eval, err
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		if re.Match([]byte(line)) {
-			results := re.FindStringSubmatch(line)
-			// TODO Add check
-			eval.Note = string(results[1])
-		} else {
-			eval.Text += line + "\n"
-		}
-	}
-
-	if err := scanner.Err(); err != nil {
-		fmt.Println(err)
-	}
-
-	return eval, nil
+	return fmt.Sprintf("%s/%s.md", evaldir, strings.ToLower(q.Isa)), nil
 }

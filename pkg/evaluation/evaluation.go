@@ -1,9 +1,12 @@
 package evaluation
 
 import (
+	"bufio"
+	"fmt"
 	"io"
 	"log"
 	"os"
+	"regexp"
 
 	"github.com/FabriceT/tisax/pkg/models"
 )
@@ -12,8 +15,9 @@ var (
 	catalogsEntry models.CatalogsEntry
 )
 
-func Blabla() int {
-	return 1
+type EvaluationResult struct {
+	Note string
+	Text string
 }
 
 func LoadString(content string) error {
@@ -51,6 +55,42 @@ func GetAllCatalogs() (catalogs []models.CatalogEntry) {
 
 func GetAllCatalogs() []models.CatalogEntry {
 	return catalogsEntry.Catalogs
+}
+
+func LoadEvaluationResult(filename string) (EvaluationResult, error) {
+	eval := EvaluationResult{
+		Note: "0",
+		Text: "",
+	}
+
+	re, err := regexp.Compile(`NOTE=(\d)`)
+	if err != nil {
+		panic("Woops")
+	}
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return eval, err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if re.Match([]byte(line)) {
+			results := re.FindStringSubmatch(line)
+			// TODO Add check
+			eval.Note = string(results[1])
+		} else {
+			eval.Text += line + "\n"
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println(err)
+	}
+
+	return eval, nil
 }
 
 /*

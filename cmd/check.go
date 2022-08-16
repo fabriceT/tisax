@@ -29,28 +29,46 @@ var checkCmd = &cobra.Command{
 	Long:  "Checks if a TISAX evaluation is completed",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		evaluation.LoadYAML("tisax.yml")
+		checked := true
+		evaldir, _ := cmd.Flags().GetString("evaldir")
+		yamlFile, _ := cmd.Flags().GetString("file")
+
+		evaluation.LoadYAML(yamlFile)
 
 		catalogs := evaluation.GetAllCatalogs()
 		for _, catalog := range catalogs {
-			fmt.Println(catalog.Catalog)
-			questions := catalog.GetAllQuestions()
-			for _, q := range questions {
-				// On se fiche de l'erreur
-				result, _ := q.LoadResult()
-				fmt.Print(" ", q.Isa, ") ", q.Name, " - ", result.Note)
+			fmt.Println("====", catalog.Catalog, "====")
+			for _, chapter := range catalog.Chapters {
+				fmt.Println(chapter.Isa, ") ", chapter.Chapter)
+				questions := chapter.GetAllQuestions()
 
-				switch result.Note {
-				case "3":
-					fmt.Println(" \u2705")
-				case "4":
-					fmt.Println(" \u2705\u16ED")
-				case "5":
-					fmt.Println(" \u2705\u16ED\u16ED")
-				default:
-					fmt.Println(" \u274C")
+				for _, q := range questions {
+					// On se fiche de l'erreur
+					path, _ := q.GetQuestionResultPath(evaldir)
+					fmt.Println(path)
+					result, _ := evaluation.LoadEvaluationResult(path)
+					fmt.Print(" ", q.Isa, ") ", q.Name, " - ", result.Note, " ")
+
+					switch result.Note {
+					case "3":
+						fmt.Println("\u2705")
+					case "4":
+						fmt.Println("\u2705\u16ED")
+					case "5":
+						fmt.Println("\u2705\u16ED\u16ED")
+					default:
+						fmt.Println("\u274C")
+						checked = false
+					}
 				}
 			}
+		}
+
+		if checked {
+			fmt.Println("\nEvaluation successful! \u2705")
+		} else {
+			fmt.Println("\nCheck failed points! \u274C")
+
 		}
 	},
 }

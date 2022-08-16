@@ -15,14 +15,14 @@ func TestGetQuestion(t *testing.T) {
 		t.Fail()
 	}
 
-	path, err := question.GetQuestionResultPath()
-	if err != nil && path != "/tmp/ds.md" {
+	path, err := question.GetQuestionResultPath("./evaluation")
+	if err == nil && path == "/tmp/7.1.1.md" {
 		t.Log("Expected /tmp/7.1.1.md, got", path)
 		t.Fail()
 	}
 
 	question = catalogs[1].GetQuestion("7.1.1")
-	_, err = question.GetQuestionResultPath()
+	_, err = question.GetQuestionResultPath("./evaluation")
 	if err != nil {
 		t.Log("Failed to raise error")
 	}
@@ -68,7 +68,8 @@ func TestLoadEvalution(t *testing.T) {
 	catalogs := GetAllCatalogs()
 
 	question := catalogs[0].GetQuestion("7.1.1")
-	eval, err := question.LoadResult()
+	path, _ := question.GetQuestionResultPath("./evaluation")
+	eval, err := LoadEvaluationResult(path)
 	if err != nil {
 		t.Log("Evaluation error", err)
 		t.Fail()
