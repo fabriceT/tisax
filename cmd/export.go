@@ -16,8 +16,8 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/FabriceT/tisax/internals/evaluation"
+	"github.com/FabriceT/tisax/internals/pdf"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +27,27 @@ var exportCmd = &cobra.Command{
 	Long:  "Write a evaluation report to a PDF file",
 	Run: func(cmd *cobra.Command, args []string) {
 		// TODO Export TISAX evaluation into a document (markdown ?)
-		fmt.Println("export called")
+
+		evaldir, _ := cmd.Flags().GetString("evaldir")
+		yamlFile, _ := cmd.Flags().GetString("file")
+
+		evaluation.LoadYAML(yamlFile)
+
+		catalogs := evaluation.GetAllCatalogs()
+		for _, catalog := range catalogs {
+			pdf.AddCatalog(catalog)
+			for _, chapter := range catalog.Chapters {
+				pdf.AddChapter(chapter)
+				for _, question := range chapter.GetAllQuestions() {
+					path, _ := question.GetQuestionResultPath(evaldir)
+					result, _ := evaluation.LoadEvaluationResult(path)
+					pdf.AddQuestion(question, result.Note, result.Text)
+				}
+
+			}
+		}
+
+		pdf.Save("evaluation.pdf")
 	},
 }
 

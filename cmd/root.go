@@ -16,8 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -26,18 +24,13 @@ var (
 	evaluationDirectory string
 )
 
-// rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "tisax",
 	Short: "Manage TISAX evalutation",
-	Long: `Do something with TISAX evalution.
-	
-	something...`,
-	Run: func(cmd *cobra.Command, args []string) { fmt.Println("Hello from root cmd") },
+	Long:  "Do something with TISAX evalution.",
+	//Run: func(cmd *cobra.Command, args []string) { fmt.Println("Hello from root cmd") },
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
 }

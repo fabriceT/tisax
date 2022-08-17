@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/FabriceT/tisax/pkg/evaluation"
+	"github.com/FabriceT/tisax/internals/evaluation"
 	"github.com/spf13/cobra"
 )
 
@@ -45,7 +45,6 @@ var checkCmd = &cobra.Command{
 				for _, q := range questions {
 					// On se fiche de l'erreur
 					path, _ := q.GetQuestionResultPath(evaldir)
-					fmt.Println(path)
 					result, _ := evaluation.LoadEvaluationResult(path)
 					fmt.Print(" ", q.Isa, ") ", q.Name, " - ", result.Note, " ")
 

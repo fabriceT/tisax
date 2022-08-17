@@ -9,12 +9,12 @@ import (
 )
 
 type QuestionEntry struct {
-	Name       string `yaml:"name"`
-	Isa        string `yaml:"isa"`
-	Reference  string `yaml:"reference"`
-	Objectives string `yaml:"objectives"`
-	Must       string `yaml:"must"`
-	Should     string `yaml:"should"`
+	Name      string `yaml:"name"`
+	Isa       string `yaml:"isa"`
+	Reference string `yaml:"reference"`
+	Objective string `yaml:"objective"`
+	Must      string `yaml:"must"`
+	Should    string `yaml:"should"`
 }
 
 type AssessmentsEntry struct {
