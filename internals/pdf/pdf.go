@@ -55,13 +55,17 @@ func AddQuestion(question models.QuestionEntry, note string, text string) {
 	tableHeadings := []string{"Item", "Description"}
 	contents := [][]string{}
 
-	if question.Objective != "" {
-		contents = append(contents, []string{"Objective", question.Objective})
-	}
-	contents = append(contents, []string{"Must", question.Must})
+	/*
+		if question.Objective != "" {
+			contents = append(contents, []string{"Objective", question.Objective})
+			contents = append(contents, []string{"Must", question.Must})
+	*/
 
 	if note != "" {
 		contents = append(contents, []string{"Note", note})
+	}
+	if question.Reference != "" {
+		contents = append(contents, []string{"Reference", question.Reference})
 	}
 	contents = append(contents, []string{"Evaluation", text})
 
