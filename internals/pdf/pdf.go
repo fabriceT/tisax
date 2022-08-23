@@ -86,6 +86,10 @@ func AddQuestion(question models.QuestionEntry, note string, text string) {
 	m.Row(8, func() {})
 }
 
+func AddLine() {
+	m.Line(8, props.Line{})
+}
+
 func Save(filename string) error {
 	return m.OutputFileAndClose(filename)
 }

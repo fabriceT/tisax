@@ -38,11 +38,21 @@ var exportCmd = &cobra.Command{
 			pdf.AddCatalog(catalog)
 			for _, chapter := range catalog.Chapters {
 				pdf.AddChapter(chapter)
-				for _, question := range chapter.GetAllQuestions() {
-					path, _ := question.GetQuestionResultPath(evaldir)
-					result, _ := evaluation.LoadEvaluationResult(path)
-					pdf.AddQuestion(question, result.Note, result.Text)
+				for _, assessment := range chapter.Assessments {
+					for _, question := range assessment.Questions {
+						path, _ := question.GetQuestionResultPath(evaldir)
+						result, _ := evaluation.LoadEvaluationResult(path)
+						pdf.AddQuestion(question, result.Note, result.Text)
+					}
+					pdf.AddLine()
 				}
+				/*
+					for _, question := range chapter.GetAllQuestions() {
+						path, _ := question.GetQuestionResultPath(evaldir)
+						result, _ := evaluation.LoadEvaluationResult(path)
+						pdf.AddQuestion(question, result.Note, result.Text)
+					}
+				*/
 
 			}
 		}
