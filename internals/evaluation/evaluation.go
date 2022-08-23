@@ -47,8 +47,8 @@ func GetAllCatalogs() []models.CatalogEntry {
 
 func LoadEvaluationResult(filename string) (EvaluationResult, error) {
 	eval := EvaluationResult{
-		Note: "",
-		Text: "Not evaluated",
+		Note: "0",
+		Text: "",
 	}
 
 	re, err := regexp.Compile(`NOTE=(\d)`)

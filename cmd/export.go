@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"github.com/FabriceT/tisax/internals/evaluation"
-	"github.com/FabriceT/tisax/internals/pdf"
+	"github.com/FabriceT/tisax/internals/markdown"
 	"github.com/spf13/cobra"
 )
 
@@ -26,8 +26,6 @@ var exportCmd = &cobra.Command{
 	Short: "export tisax report to a PDF File",
 	Long:  "Write a evaluation report to a PDF file",
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO Export TISAX evaluation into a document (markdown ?)
-
 		evaldir, _ := cmd.Flags().GetString("evaldir")
 		yamlFile, _ := cmd.Flags().GetString("file")
 
@@ -35,29 +33,21 @@ var exportCmd = &cobra.Command{
 
 		catalogs := evaluation.GetAllCatalogs()
 		for _, catalog := range catalogs {
-			pdf.AddCatalog(catalog)
+			markdown.AddCatalog(catalog)
 			for _, chapter := range catalog.Chapters {
-				pdf.AddChapter(chapter)
+				markdown.AddChapter(chapter)
 				for _, assessment := range chapter.Assessments {
 					for _, question := range assessment.Questions {
 						path, _ := question.GetQuestionResultPath(evaldir)
 						result, _ := evaluation.LoadEvaluationResult(path)
-						pdf.AddQuestion(question, result.Note, result.Text)
+						markdown.AddQuestion(question, result.Note, result.Text)
 					}
-					pdf.AddLine()
+					markdown.AddLine()
 				}
-				/*
-					for _, question := range chapter.GetAllQuestions() {
-						path, _ := question.GetQuestionResultPath(evaldir)
-						result, _ := evaluation.LoadEvaluationResult(path)
-						pdf.AddQuestion(question, result.Note, result.Text)
-					}
-				*/
-
 			}
 		}
 
-		pdf.Save("evaluation.pdf")
+		markdown.Save()
 	},
 }
 

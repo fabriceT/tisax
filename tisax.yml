@@ -909,7 +909,7 @@ catalogs:
 - catalog: Data Protection
   chapters: 
   - chapter: Data Protection
-    isa: 8
+    isa: 9
     assessments:
     - questions:
       - name: To what extent is the implementation of data protection organized?

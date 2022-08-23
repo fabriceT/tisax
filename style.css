@@ -1,0 +1,65 @@
+body {
+    margin:auto;
+    width:1024px;
+    padding:10px;
+    background-color:#f4f2f2;
+    font-size:14px;
+    font-family:Verdana;
+}
+
+html { 
+    background-color: #ebebeb;
+}
+
+table {
+    border: 1px solid;
+}
+
+th { 
+    font-size: 0.8em;
+}
+
+.objective {
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+h2 {
+    font-variant: small-caps;
+}
+
+h4 { 
+    margin-bottom: 5px;
+}
+
+.objective+ul { 
+    padding-left: 20px;
+    margin-top: 0;
+    margin-left: 0;
+    font-style: italic;
+}
+
+hr { 
+    width: 40%;
+    color: lightgray;
+}
+.eval0 { 
+    background-color: black;
+    color: white;
+}
+
+.eval1 { 
+    background-color: red;
+}
+
+.eval2 { 
+    background-color: orange;
+}
+
+.eval3, .eval4, .eval5 { 
+    background-color: green;
+}
+
+.remarque, li span {
+    text-decoration: underline;     
+}
