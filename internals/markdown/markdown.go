@@ -18,7 +18,7 @@ var (
 )
 
 func init() {
-	extensions := parser.CommonExtensions
+	extensions := parser.CommonExtensions | parser.Footnotes
 	p = parser.NewWithExtensions(extensions)
 }
 
@@ -43,8 +43,8 @@ func AddQuestion(question models.QuestionEntry, note string, text string) {
 	}
 
 	if text != "" {
-		md += fmt.Sprintf("* <span class=eval%s><u>Évaluation</u> : %s</span> %s\n\n", note, note, internals.GetNoteIcon(note))
-		md += fmt.Sprintf("<p> <span class=remarque>Remarque</span> :</p><div>%s</div>\n", text)
+		md += fmt.Sprintf("* <span>Évaluation</span> : %s %s\n\n", note, internals.GetNoteIcon(note))
+		md += fmt.Sprintf("<div class='evaltext%s'>%s</div>\n", note, text)
 
 	} else {
 		md += "\nNon évalué\n"
@@ -56,8 +56,8 @@ func AddLine() {
 	md += "***\n"
 }
 
-func Save() {
-	f, err := os.Create("evaluation.html")
+func Save(filename string) {
+	f, err := os.Create(filename)
 
 	if err != nil {
 		log.Fatal(err)

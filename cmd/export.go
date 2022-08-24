@@ -47,10 +47,12 @@ var exportCmd = &cobra.Command{
 			}
 		}
 
-		markdown.Save()
+		markdown.Save(outputfile)
 	},
 }
+var outputfile string
 
 func init() {
+	rootCmd.PersistentFlags().StringVar(&outputfile, "output", "evaluation.html", "where to store HTML result")
 	rootCmd.AddCommand(exportCmd)
 }

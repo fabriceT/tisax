@@ -43,21 +43,29 @@ hr {
     width: 40%;
     color: lightgray;
 }
-.eval0 { 
-    background-color: black;
-    color: white;
+
+.evaltext0 { 
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+    border-left: 3px solid black;
 }
 
-.eval1 { 
-    background-color: red;
+.evaltext1 { 
+    margin-left: 1em;
+    padding-left: 0.5em;
+    border-left: 3px solid red;
 }
 
-.eval2 { 
-    background-color: orange;
+.evaltext2 { 
+    margin-left: 1em;
+    padding-left: 0.5em;
+    border-left: 3px solid orange;
 }
 
-.eval3, .eval4, .eval5 { 
-    background-color: green;
+.evaltext3, .evaltext4, .evaltext5 { 
+    margin-left: 1em;
+    padding-left: 0.5em;
+    border-left: 3px solid green;
 }
 
 .remarque, li span {
