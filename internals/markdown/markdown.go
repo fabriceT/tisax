@@ -64,7 +64,8 @@ func IncludeMDFile(filename string) {
 		log.Printf("Error: %s, file %s not included", err.Error(), filename)
 	}
 
-	md += string(content)
+	// On ajoute un saut de ligne pour ne pas interférer avec la suite du markdown
+	md += string(content) + "\n"
 }
 
 func IncludeMDContent(content string) {

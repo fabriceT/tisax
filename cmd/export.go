@@ -81,14 +81,22 @@ var exportCmd = &cobra.Command{
 			}
 		}
 
-		markdown.IncludeMDContent(resultsTextMD)
+		// On inclus un fichier conclusion.md si présent.
+		markdown.IncludeMDFile(evaldir + "/conclusion.md")
+
+		if synthesis {
+			// On inclus la Synthese
+			markdown.IncludeMDContent(resultsTextMD)
+		}
 
 		markdown.Save(outputfile)
 	},
 }
 var outputfile string
+var synthesis bool
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&outputfile, "output", "evaluation.html", "where to store HTML result")
+	rootCmd.PersistentFlags().BoolVar(&synthesis, "synthesis", true, "Add synthesis to document")
 	rootCmd.AddCommand(exportCmd)
 }
