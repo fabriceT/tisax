@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/FabriceT/tisax/internals"
 	"github.com/FabriceT/tisax/internals/evaluation"
 	"github.com/spf13/cobra"
 )
@@ -46,17 +47,13 @@ var checkCmd = &cobra.Command{
 					// On se fiche de l'erreur
 					path, _ := q.GetQuestionResultPath(evaldir)
 					result, _ := evaluation.LoadEvaluationResult(path)
-					fmt.Print(" ", q.Isa, ") ", q.Name, " - ", result.MaturityLevel, " ")
+					fmt.Printf(" %s) %s - %d %s\n",
+						q.Isa,
+						q.Name,
+						result.MaturityLevel,
+						internals.GetMaturityIcon(result.MaturityLevel))
 
-					switch result.MaturityLevel {
-					case 3:
-						fmt.Println("\u2705")
-					case 4:
-						fmt.Println("\u2705\u16ED")
-					case 5:
-						fmt.Println("\u2705\u16ED\u16ED")
-					default:
-						fmt.Println("\u274C")
+					if result.MaturityLevel < 3 {
 						checked = false
 					}
 				}
