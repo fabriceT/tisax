@@ -12,11 +12,21 @@ html {
 }
 
 table {
-    border: 1px solid;
+   border: 1px solid;
+   border-spacing: 0;
 }
 
-th { 
-    font-size: 0.8em;
+th {
+    text-align: center;
+    border-bottom: 1px solid black;
+ }
+
+td, th {
+    padding: 3px 1em 3px 1em;
+}
+
+tr:nth-child(2n)  {
+    background-color: rgb(236, 236, 236);
 }
 
 .objective {
@@ -44,30 +54,33 @@ hr {
     color: lightgray;
 }
 
-.evaltext0 { 
-    margin-left: 0.5em;
+.evaltext0, .evaltext1, .evaltext2, .evaltext3, .evaltext4, .evaltext5 { 
+    margin-left: 1em;
     padding-left: 0.5em;
+}
+.evaltext0 { 
     border-left: 3px solid black;
 }
 
 .evaltext1 { 
-    margin-left: 1em;
-    padding-left: 0.5em;
     border-left: 3px solid red;
 }
 
 .evaltext2 { 
-    margin-left: 1em;
-    padding-left: 0.5em;
     border-left: 3px solid orange;
 }
 
 .evaltext3, .evaltext4, .evaltext5 { 
-    margin-left: 1em;
-    padding-left: 0.5em;
     border-left: 3px solid green;
 }
 
 .remarque, li span {
     text-decoration: underline;     
+}
+
+.warning {
+    background-color: rgb(202, 252, 252);
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 40em;
 }

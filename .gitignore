@@ -1,4 +1,5 @@
-tisax
-tisax.exe
-evaluation/*
+tisax*
+evaluation
 *.html
+*.cmd
+.vscode

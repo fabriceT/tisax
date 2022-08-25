@@ -75,12 +75,12 @@ func TestLoadEvalution(t *testing.T) {
 		t.Fail()
 	}
 
-	if eval.Note != "1" {
-		t.Log("Expected 1, got", eval.Note)
+	if eval.MaturityLevel != 1 {
+		t.Log("Expected 1, got", eval.MaturityLevel)
 		t.Fail()
 	}
 
-	if eval.Note == "" {
+	if eval.MaturityLevel == 0 {
 		t.Log("incorrect eval.Text", eval.Text)
 		t.Fail()
 	}

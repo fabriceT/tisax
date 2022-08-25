@@ -30,26 +30,45 @@ func AddChapter(chapter models.ChaptersEntry) {
 	md += fmt.Sprintf("### %s) %s\n", chapter.Isa, chapter.Chapter)
 }
 
-func AddQuestion(question models.QuestionEntry, note string, text string) {
+func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string) {
 	md += fmt.Sprintf("#### %s) %s\n", question.Isa, question.Name)
 
 	if question.Objective != "" {
-		//md += fmt.Sprintf("<div class=objective>%s</div>\n\n", question.Objective)
-		md += fmt.Sprintf("* <span>Objectif</span> : %s\n", question.Objective)
+		md += fmt.Sprintf("* <span>Objectif</span> : %s\n",
+			question.Objective)
 	}
 
 	if question.Reference != "" {
-		md += fmt.Sprintf("* <span>Référence</span> : %s\n", question.Reference)
+		md += fmt.Sprintf("* <span>Référence</span> : %s\n",
+			question.Reference)
 	}
 
 	if text != "" {
-		md += fmt.Sprintf("* <span>Évaluation</span> : %s %s\n\n", note, internals.GetNoteIcon(note))
-		md += fmt.Sprintf("<div class='evaltext%s'>%s</div>\n", note, text)
+		md += fmt.Sprintf("* <span>Niveau maturité</span> : %d %s\n\n",
+			maturityLevel,
+			internals.GetMaturityIcon(maturityLevel))
+
+		md += fmt.Sprintf("<div class='eval evaltext%d'>%s</div>\n",
+			maturityLevel,
+			text)
 
 	} else {
 		md += "\nNon évalué\n"
 	}
+}
 
+func IncludeMDFile(filename string) {
+	content, err := os.ReadFile(filename)
+
+	if err != nil {
+		log.Printf("Error: %s, file %s not included", err.Error(), filename)
+	}
+
+	md += string(content)
+}
+
+func IncludeMDContent(content string) {
+	md += string(content)
 }
 
 func AddLine() {

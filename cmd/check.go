@@ -46,14 +46,14 @@ var checkCmd = &cobra.Command{
 					// On se fiche de l'erreur
 					path, _ := q.GetQuestionResultPath(evaldir)
 					result, _ := evaluation.LoadEvaluationResult(path)
-					fmt.Print(" ", q.Isa, ") ", q.Name, " - ", result.Note, " ")
+					fmt.Print(" ", q.Isa, ") ", q.Name, " - ", result.MaturityLevel, " ")
 
-					switch result.Note {
-					case "3":
+					switch result.MaturityLevel {
+					case 3:
 						fmt.Println("\u2705")
-					case "4":
+					case 4:
 						fmt.Println("\u2705\u16ED")
-					case "5":
+					case 5:
 						fmt.Println("\u2705\u16ED\u16ED")
 					default:
 						fmt.Println("\u274C")

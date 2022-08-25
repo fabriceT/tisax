@@ -16,10 +16,21 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
+
+	"github.com/FabriceT/tisax/internals"
 	"github.com/FabriceT/tisax/internals/evaluation"
 	"github.com/FabriceT/tisax/internals/markdown"
 	"github.com/spf13/cobra"
 )
+
+const resultCatalogHeader = `
+
+### %s
+
+| Question | Maturité |
+|----------|----------|
+`
 
 var exportCmd = &cobra.Command{
 	Use:   "export",
@@ -31,21 +42,46 @@ var exportCmd = &cobra.Command{
 
 		evaluation.LoadYAML(yamlFile)
 
+		/* Markdown content for results table
+
+		## Résultats
+
+		### Catalog
+
+		| Question    | Maturité |
+		|-------------|----------|
+		| Automation? |    0     |
+		*/
+		resultsTextMD := "## Synthèse\n"
+
 		catalogs := evaluation.GetAllCatalogs()
 		for _, catalog := range catalogs {
+
 			markdown.AddCatalog(catalog)
+			// Results table starts
+			resultsTextMD += fmt.Sprintf(resultCatalogHeader, catalog.Catalog)
+
 			for _, chapter := range catalog.Chapters {
 				markdown.AddChapter(chapter)
 				for _, assessment := range chapter.Assessments {
 					for _, question := range assessment.Questions {
 						path, _ := question.GetQuestionResultPath(evaldir)
 						result, _ := evaluation.LoadEvaluationResult(path)
-						markdown.AddQuestion(question, result.Note, result.Text)
+						markdown.AddQuestion(question, result.MaturityLevel, result.Text)
+
+						// Add item in results table
+						resultsTextMD += fmt.Sprintf("| %s - %s | %d %s |\n",
+							question.Isa,
+							question.Name,
+							result.MaturityLevel,
+							internals.GetMaturityIcon((result.MaturityLevel)))
 					}
 					markdown.AddLine()
 				}
 			}
 		}
+
+		markdown.IncludeMDContent(resultsTextMD)
 
 		markdown.Save(outputfile)
 	},

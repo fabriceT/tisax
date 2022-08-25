@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strconv"
 
 	"github.com/FabriceT/tisax/internals/models"
 )
@@ -16,8 +17,8 @@ var (
 )
 
 type EvaluationResult struct {
-	Note string
-	Text string
+	MaturityLevel int64
+	Text          string
 }
 
 func LoadYAML(filename string) error {
@@ -47,8 +48,8 @@ func GetAllCatalogs() []models.CatalogEntry {
 
 func LoadEvaluationResult(filename string) (EvaluationResult, error) {
 	eval := EvaluationResult{
-		Note: "0",
-		Text: "",
+		MaturityLevel: 0,
+		Text:          "",
 	}
 
 	re, err := regexp.Compile(`NOTE=(\d)`)
@@ -70,7 +71,7 @@ func LoadEvaluationResult(filename string) (EvaluationResult, error) {
 		if re.Match([]byte(line)) {
 			results := re.FindStringSubmatch(line)
 			// TODO Add check
-			eval.Note = string(results[1])
+			eval.MaturityLevel, _ = strconv.ParseInt(results[1], 10, 4)
 		} else {
 			eval.Text += line + "\n"
 		}
