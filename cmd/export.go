@@ -54,6 +54,9 @@ var exportCmd = &cobra.Command{
 		*/
 		resultsTextMD := "## Synthèse\n"
 
+		// We add head.md if it exists.
+		markdown.IncludeMDFile(evaldir + "/head.md")
+
 		catalogs := evaluation.GetAllCatalogs()
 		for _, catalog := range catalogs {
 
@@ -81,8 +84,7 @@ var exportCmd = &cobra.Command{
 			}
 		}
 
-		// On inclus un fichier conclusion.md si présent.
-		markdown.IncludeMDFile(evaldir + "/conclusion.md")
+		markdown.IncludeMDFile(evaldir + "/end.md")
 
 		if synthesis {
 			// On inclus la Synthese

@@ -5,6 +5,30 @@ body {
     background-color:#f4f2f2;
     font-size:14px;
     font-family:Verdana;
+
+    /*counter-reset: section;*/
+}
+
+/*
+h2::before {
+    counter-increment: section;                 
+    content: counter(section, upper-latin) " - ";
+}
+*/
+
+aside {
+    width: 40%;
+    padding-left: .5rem;
+    margin-left: .5rem;
+    float: right;
+    box-shadow: inset 5px 0 5px -5px #29627e;
+    font-style: italic;
+    color: #29627e;
+}
+
+
+aside > p {
+    margin: .5rem;
 }
 
 html { 
@@ -82,5 +106,19 @@ hr {
     background-color: rgb(202, 252, 252);
     margin-left: auto;
     margin-right: auto;
-    min-width: 40em;
+    max-width: 60em;
+    min-width: 20em;
+}
+
+.todo {
+    background-color: #e9fd8d;
+    color: black;
+    max-width: 60em;
+    min-width: 20em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 0.5em;
+    font-weight: bold;
+    box-shadow: inset 5px 0 5px -5px #e05d06;
 }

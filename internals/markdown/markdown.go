@@ -18,7 +18,7 @@ var (
 )
 
 func init() {
-	extensions := parser.CommonExtensions | parser.Footnotes
+	extensions := parser.CommonExtensions | parser.Footnotes | parser.Attributes | parser.Mmark
 	p = parser.NewWithExtensions(extensions)
 }
 
