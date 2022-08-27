@@ -1,4 +1,0 @@
----
-deployment:
-  tasks:
-    - /home/phab/thfa9713/tisax export --evaldir=tisax_eval

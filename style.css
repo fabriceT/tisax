@@ -6,30 +6,8 @@ body {
     font-size:14px;
     font-family:Verdana;
 
-    /*counter-reset: section;*/
 }
 
-/*
-h2::before {
-    counter-increment: section;                 
-    content: counter(section, upper-latin) " - ";
-}
-*/
-
-aside {
-    width: 40%;
-    padding-left: .5rem;
-    margin-left: .5rem;
-    float: right;
-    box-shadow: inset 5px 0 5px -5px #29627e;
-    font-style: italic;
-    color: #29627e;
-}
-
-
-aside > p {
-    margin: .5rem;
-}
 
 html { 
     background-color: #ebebeb;
@@ -64,6 +42,20 @@ h2 {
 
 h4 { 
     margin-bottom: 5px;
+}
+
+aside {
+    width: 40%;
+    padding-left: .5rem;
+    margin: 1em 0 1em .5rem;
+    float: right;
+    box-shadow: inset 5px 0 5px -5px #29627e;
+    font-style: italic;
+    color: #29627e;
+}
+
+aside > p {
+    margin: .5rem;
 }
 
 .objective+ul { 
@@ -122,3 +114,5 @@ hr {
     font-weight: bold;
     box-shadow: inset 5px 0 5px -5px #e05d06;
 }
+
+
