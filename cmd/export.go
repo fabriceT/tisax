@@ -30,8 +30,8 @@ const resultCatalogHeader = `
 
 ### %s
 
-| ISA | Question | Maturité |
-|-----|----------|----------|
+ ISA | Question | Maturité
+-----|----------|---------
 `
 
 var exportCmd = &cobra.Command{
@@ -50,9 +50,9 @@ var exportCmd = &cobra.Command{
 
 		### Catalog
 
-		| ISA | Question | Maturité |
-		|-----|----------|----------|
-		| X.X | What?    |   0  :D  |
+		ISA | Question | Maturité
+		----|----------|---------
+		X.X | What?    |   0  :D
 		*/
 
 		var synthesisBuilder strings.Builder
@@ -79,12 +79,12 @@ var exportCmd = &cobra.Command{
 						// Add item in results table
 						if result.Text == "" {
 							// Not evaluated
-							fmt.Fprintf(&synthesisBuilder, "| %s | %s | - |\n",
+							fmt.Fprintf(&synthesisBuilder, "%s | %s | -\n",
 								question.Isa,
 								question.Name)
 						} else {
 							// | ISA) Question | Note Icon |
-							fmt.Fprintf(&synthesisBuilder, "| %s | %s | %d %s |\n",
+							fmt.Fprintf(&synthesisBuilder, "%s | %s | %d %s\n",
 								question.Isa,
 								question.Name,
 								result.MaturityLevel,
