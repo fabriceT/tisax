@@ -322,7 +322,7 @@ catalogs:
         should: + Identification means can be produced under controlled conditions only.
       - name: To what extent is the user access to network services, IT systems and IT applications secured?
         isa: 4.1.2
-        reference: 'Reference to ISO 27001: A.9.1, A.9.4.2'
+        reference: 'IS0 27001: A.9.1, A.9.4.2'
         objective: Only securely identified (authenticated) users are to gain access to IT systems. For this purpose, the identity of a user is securely determined by suitable procedures.
         must: |
           + The procedures for user authentication have been selected based on a risk assessment. Possible attack scenarios have been considered (e.g. direct accessibility via the internet).
@@ -333,7 +333,7 @@ catalogs:
           + Superior procedures are used for the authentication of privileged user accounts (e.g. Privileged Access Management, two-factor authentication)."
       - name: To what extent are user accounts and login information securely managed and applied?
         isa: 4.1.3
-        reference: 'Reference to ISO 27001: A.9.2.1, A.9.2.2, A.9.2.4, A.9.3.1, A.9.4.3'
+        reference: 'IS0 27001: A.9.2.1, A.9.2.2, A.9.2.4, A.9.3.1, A.9.4.3'
         objective: Access to information and IT systems is provided via validated user accounts assigned to a person. It is important to protect login information and to ensure the traceability of transactions and accesses.
         must: |
           + The creating, changing and deleting of user accounts is conducted.
@@ -366,7 +366,7 @@ catalogs:
       questions:
       - name: To what extent are access rights assigned and managed?
         isa: 4.2.1
-        reference:
+        reference: 'ISO 27001: A.9.2.3, A.9.2.5, A.9.4.1'
         objective: The management of access rights ensures that only authorized users have access to information and IT applications. For this purpose, access rights are assigned to user accounts.
         must: |
           + The requirements for the management of access rights (authorization) are determined and fulfilled. The following aspects are considered:
@@ -387,7 +387,7 @@ catalogs:
       questions:
       - name: To what extent is the use of cryptographic procedures managed?
         isa: 5.1.1
-        reference: 'Reference to ISO 27001: A.10.1'
+        reference: 'ISO 27001: A.10.1'
         objective: When using cryptographic procedures, it is important to consider risks in the field of availability (lost key material) as well as risks due to incorrectly applied procedures in the fields of integrity and confidentiality (poor algorithms/protocols or insufficient key strengths).
         must: |
           + All cryptographic procedures used (e.g. encryption, signature, and hash algorithms, protocols, applications) provide the security required by the respective application field according to the state of the art.
@@ -415,7 +415,7 @@ catalogs:
       questions:
       - name: To what extent are changes managed? 
         isa: 5.2.1
-        reference: 'Reference to ISO 27001: A.12.1.2'
+        reference: 'IS0 27001: A.12.1.2'
         objective: The objective is to ensure that information security aspects are considered in case of any changes to the organization, business processes and IT systems (Change Management) in order to prevent these changes from causing an uncontrolled reduction in the information security level. 
         must: + Information security requirements for changes to the organization, business processes, IT systems are determined and applied.
         should: |
@@ -425,7 +425,7 @@ catalogs:
           + Procedures for fall-back in fault cases are taken into account.
       - name: To what extent are development and testing environments separated from operational environments?
         isa: 5.2.2
-        reference: 'Reference to ISO 27001: A.12.1.4'
+        reference: 'IS0 27001: A.12.1.4'
         objective: The objective of separating the development, testing and operational environments is to ensure that the availability, confidentiality and integrity of productive data are maintained. 
         must: |
           + The IT systems have been subjected to risk assessment in order to determine the necessity of their separation into development, testing and operational systems.
@@ -437,7 +437,7 @@ catalogs:
             - Use of different user profiles for development, testing and operational systems.
       - name: To what extent are IT systems protected against malware?
         isa: 5.2.3
-        reference: 'Reference to ISO 27001: A.12.2'
+        reference: 'IS0 27001: A.12.2'
         objective: The aim is to both technically and organizationally ensure the protection of IT systems against malware. 
         must: |
           + Requirements for protection against malware are determined.
@@ -457,7 +457,7 @@ catalogs:
           Desktop firewall, Linking to loopback interfaces
       - name: To what extent are event logs recorded and analyzed?
         isa: 5.2.4
-        reference: 'Reference to ISO 27001: A.12.4.1, A.12.4.2, A.12.4.3'
+        reference: 'IS0 27001: A.12.4.1, A.12.4.2, A.12.4.3'
         objective: Event logs support the traceability of events in case of a security incident. This requires that events necessary to determine the causes are recorded and stored. In addition, the logging and analysis of activities in accordance with applicable legislation (e.g. Data Protection or Works Constitution Act) is required to determine which user account has made changes to IT systems.
         must: |
           + Information security requirements regarding the handling of event logs are determined and fulfilled.
@@ -471,7 +471,7 @@ catalogs:
           + Adequate monitoring and recording of any actions on the network that are relevant to information security are established.
       - name: To what extent are vulnerabilities identified and addressed? 
         isa: 5.2.5
-        reference: 'Reference to ISO 27001: A.12.6'
+        reference: 'IS0 27001: A.12.6'
         objective: Vulnerabilities increase the risk of IT systems being unable to meet the requirements for confidentiality, availability and integrity. Exploitation of vulnerabilities is among the possible ways for attackers to gain access to the IT system or to threaten its operating stability.
         must: |
           + Information on technical vulnerabilities for the IT systems in use is gathered (e.g. information from the manufacturer, system audits, CVS database) and evaluated (e.g. Common Vulnerability Scoring System CVSS)
@@ -481,7 +481,7 @@ catalogs:
           + Potentially affected IT systems and software are identified, assessed and any vulnerabilities are addressed.
       - name: To what extent are IT systems technically checked (system audit)?
         isa: 5.2.6
-        reference: 'Reference to ISO 27001: A12.7, A.18.2.3' 
+        reference: 'IS0 27001: A12.7, A.18.2.3' 
         objective: The objective of technical checks is the detection of states which can jeopardize the availability, confidentiality or integrity of IT systems. 
         must: |
           + Requirements for auditing IT systems are determined.
@@ -496,7 +496,7 @@ catalogs:
           + Within a reasonable period following completion of the audit, a report is prepared.
       - name: "To what extent is the network of the organization managed?"
         isa: 5.2.7
-        reference: 'Reference to ISO 27001: A.13.1.1, A.13.1.3'
+        reference: 'IS0 27001: A.13.1.1, A.13.1.3'
         objective: IT systems in a network are exposed to different risks or have different protection needs. In order to detect or prevent unintended data exchange or access between these IT systems, they are subdivided into suitable segments and access is controlled and monitored by means of security technologies.
         must: |
           + Requirements for the management and control of networks are determined and fulfilled.
@@ -517,7 +517,7 @@ catalogs:
       questions:
       - name: To what extent is information security considered in new or further developed IT systems?
         isa: 5.3.1
-        reference: 'Reference to ISO 27001: A.14.1'
+        reference: 'IS0 27001: A.14.1'
         objective: Information security is an integral part of the entire lifecycle of IT systems. This particularly includes consideration of information security requirements in the development or acquisition of IT systems.
         must: |
           + The information security requirements associated with the design and development of IT systems are determined and taken into account.
@@ -534,7 +534,7 @@ catalogs:
             - case-related specifications for the generation of test data are defined."
       - name: To what extent are requirements for network services defined?
         isa: 5.3.2
-        reference: 'Reference to ISO 27001: A.13.1.2'
+        reference: 'IS0 27001: A.13.1.2'
         objective: Network services have different requirements for information security, quality of data transfer or management. It is important to know these criteria and the scope of use of the different network services.
         must: + Requirements regarding the information security of network services are determined and fulfilled.
         should: |
@@ -543,7 +543,7 @@ catalogs:
           + Adequate redundancy solutions are implemented.
       - name: To what extent is the return and secure removal of information assets from external IT services regulated? 
         isa: 5.3.3
-        reference: 'Reference to ISO 27017: CLD.8.1.5'
+        reference: 'IS0 27017: CLD.8.1.5'
         objective: In order to ensure control over the information assets as the information owner, it is necessary that the information assets can be safely removed or are returned, if required, when terminating the IT service.
         must: + A procedure for the return and secure removal of information assets from each external IT service is defined and implemented.
         should: + A description of the termination process is given, adapted to any changes and contractually regulated.
@@ -608,7 +608,7 @@ catalogs:
           Contractually specified deliverables (e.g. availability requirements) should be verified at regular intervals. This can be done by e.g. regular analysis of service reports and SLAs.
       - name: To what extent is non-disclosure regarding the exchange of information contractually agreed?
         isa: 6.1.2
-        reference: 'Reference to ISO 27001: A.13.2.2, A.13.2.4'
+        reference: 'IS0 27001: A.13.2.2, A.13.2.4'
         objective: Non-disclosure agreements provide legal protection of an organization’s information particularly where information is exchanged beyond the boundaries of the organization. 
         must: |
           + The non-disclosure requirements are determined and fulfilled.
@@ -633,7 +633,7 @@ catalogs:
         questions:
         - name: To what extent is compliance with regulatory and contractual provisions ensured?
           isa: 7.1.1
-          reference: 'Reference to ISO 27001: A.18.1.1, A.18.1.2, A.18.1.3, A.18.1.5'
+          reference: 'IS0 27001: A.18.1.1, A.18.1.2, A.18.1.3, A.18.1.5'
           objective: Non-compliance with legal, regulatory or contractual provisions can create risks to the information security of customers and the own organization. Therefore, it is essential to ensure that these provisions are known and observed.
           must: |
             "+ Legal, regulatory and contractual provisions of relevance to information security (see examples) are determined at regular intervals.
@@ -652,7 +652,7 @@ catalogs:
             - Contractually agreed provisions (GTC, terms and conditions of purchase, framework contracts, individual contracts)
         - name: To what extent is the protection of personally identifiable data taken into account when implementing information security? 
           isa: 7.1.2
-          reference: 'Reference to ISO 27001: A.18.1.4'
+          reference: 'IS0 27001: A.18.1.4'
           objective: Privacy and protection of personally identifiable data are taken into account in the implementation of information security as required by relevant national legislation and regulations, where applicable.
           must: 
             "+ Legal and contractual information security requirements regarding the procedures and processes in the processing of personally identifiable data are determined.

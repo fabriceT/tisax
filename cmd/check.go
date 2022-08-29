@@ -18,8 +18,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/FabriceT/tisax/internals"
-	"github.com/FabriceT/tisax/internals/evaluation"
+	"github.com/FabriceT/tisax/internal"
+	"github.com/FabriceT/tisax/internal/evaluation"
 	"github.com/spf13/cobra"
 )
 
@@ -51,7 +51,7 @@ var checkCmd = &cobra.Command{
 						q.Isa,
 						q.Name,
 						result.MaturityLevel,
-						internals.GetMaturityIcon(result.MaturityLevel))
+						internal.GetMaturityIcon(result.MaturityLevel))
 
 					if result.MaturityLevel < 3 {
 						checked = false

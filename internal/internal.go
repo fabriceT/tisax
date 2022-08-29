@@ -1,4 +1,4 @@
-package internals
+package internal
 
 func GetMaturityIcon(maturityLevel int64) string {
 	switch maturityLevel {

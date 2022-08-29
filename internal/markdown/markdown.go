@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/FabriceT/tisax/internals"
-	"github.com/FabriceT/tisax/internals/models"
+	"github.com/FabriceT/tisax/internal"
+	"github.com/FabriceT/tisax/internal/models"
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
@@ -46,7 +46,7 @@ func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string
 	if text != "" {
 		md += fmt.Sprintf("* <span>Niveau maturité</span> : %d %s\n\n",
 			maturityLevel,
-			internals.GetMaturityIcon(maturityLevel))
+			internal.GetMaturityIcon(maturityLevel))
 
 		md += fmt.Sprintf("<div class='eval evaltext%d'>%s</div>\n",
 			maturityLevel,

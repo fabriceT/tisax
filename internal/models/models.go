@@ -2,7 +2,7 @@ package models
 
 import (
 	"errors"
-	"fmt"
+	"path"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -80,10 +80,10 @@ func (c *ChaptersEntry) GetAllQuestions() (results []QuestionEntry) {
 	return
 }
 
-func (q *QuestionEntry) GetQuestionResultPath(evaldir string) (string, error) {
+func (q *QuestionEntry) GetQuestionResultPath(basepath string) (string, error) {
 	if q.Isa == "" {
 		return "", errors.New("question doesn't contains ISA code")
 	}
 
-	return fmt.Sprintf("%s/%s.md", evaldir, strings.ToLower(q.Isa)), nil
+	return path.Join(basepath, strings.ToLower(q.Isa)+".md"), nil
 }

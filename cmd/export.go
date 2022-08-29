@@ -17,10 +17,12 @@ package cmd
 
 import (
 	"fmt"
+	"path"
+	"strings"
 
-	"github.com/FabriceT/tisax/internals"
-	"github.com/FabriceT/tisax/internals/evaluation"
-	"github.com/FabriceT/tisax/internals/markdown"
+	"github.com/FabriceT/tisax/internal"
+	"github.com/FabriceT/tisax/internal/evaluation"
+	"github.com/FabriceT/tisax/internal/markdown"
 	"github.com/spf13/cobra"
 )
 
@@ -28,8 +30,8 @@ const resultCatalogHeader = `
 
 ### %s
 
-| Question | Maturité |
-|----------|----------|
+| ISA | Question | Maturité |
+|-----|----------|----------|
 `
 
 var exportCmd = &cobra.Command{
@@ -48,11 +50,13 @@ var exportCmd = &cobra.Command{
 
 		### Catalog
 
-		| Question    | Maturité |
-		|-------------|----------|
-		| Automation? |    0     |
+		| ISA | Question | Maturité |
+		|-----|----------|----------|
+		| X.X | What?    |   0  :D  |
 		*/
-		resultsTextMD := "## Synthèse\n"
+
+		var synthesisBuilder strings.Builder
+		synthesisBuilder.WriteString("## Synthèse\n")
 
 		// We add head.md if it exists.
 		markdown.IncludeMDFile(evaldir + "/head.md")
@@ -62,22 +66,30 @@ var exportCmd = &cobra.Command{
 
 			markdown.AddCatalog(catalog)
 			// Results table starts
-			resultsTextMD += fmt.Sprintf(resultCatalogHeader, catalog.Catalog)
+			fmt.Fprintf(&synthesisBuilder, resultCatalogHeader, catalog.Catalog)
 
 			for _, chapter := range catalog.Chapters {
 				markdown.AddChapter(chapter)
 				for _, assessment := range chapter.Assessments {
 					for _, question := range assessment.Questions {
-						path, _ := question.GetQuestionResultPath(evaldir)
+						path, _ := question.GetQuestionResultPath(path.Join(evaldir, catalog.Catalog))
 						result, _ := evaluation.LoadEvaluationResult(path)
 						markdown.AddQuestion(question, result.MaturityLevel, result.Text)
 
 						// Add item in results table
-						resultsTextMD += fmt.Sprintf("| %s - %s | %d %s |\n",
-							question.Isa,
-							question.Name,
-							result.MaturityLevel,
-							internals.GetMaturityIcon((result.MaturityLevel)))
+						if result.Text == "" {
+							// Not evaluated
+							fmt.Fprintf(&synthesisBuilder, "| %s | %s | - |\n",
+								question.Isa,
+								question.Name)
+						} else {
+							// | ISA) Question | Note Icon |
+							fmt.Fprintf(&synthesisBuilder, "| %s | %s | %d %s |\n",
+								question.Isa,
+								question.Name,
+								result.MaturityLevel,
+								internal.GetMaturityIcon(result.MaturityLevel))
+						}
 					}
 					markdown.AddLine()
 				}
@@ -88,7 +100,7 @@ var exportCmd = &cobra.Command{
 
 		if synthesis {
 			// On inclus la Synthese
-			markdown.IncludeMDContent(resultsTextMD)
+			markdown.IncludeMDContent(synthesisBuilder.String())
 		}
 
 		markdown.Save(outputfile)
