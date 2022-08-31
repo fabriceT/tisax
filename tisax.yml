@@ -401,7 +401,7 @@ catalogs:
           + An emergency process for restoring key material is established."
       - name: To what extent is information protected during transfer?
         isa: 5.1.2
-        reference:
+        reference: 'ISO 27001: A.13.2.1, A.13.2.3'
         objective: When being transferred via public or private networks, information can in some circumstances be read or manipulated by unauthorized third parties. Therefore, requirements regarding the protection needs of the information must be determined and implemented by taking suitable measures during such transfer.
         must: |
           + The network services used to transfer information are identified and documented. 
@@ -549,7 +549,7 @@ catalogs:
         should: + A description of the termination process is given, adapted to any changes and contractually regulated.
       - name: To what extent is information protected in shared external IT services?
         isa: 5.3.4
-        reference: 
+        reference: 'ISO 27017: CLD.9.5.1, CLD.9.5.2'
         objective: Clear segregation between individual clients must be ensured such as to protect own information in external IT services at all times and to prevent it from being accessed by other organizations (clients).
         must: + Effective segregation (e.g. segregation of clients) prevents access to own information by unauthorized users of other organizations.
         should: |
@@ -563,7 +563,7 @@ catalogs:
       questions:
       - name: To what extent is information security ensured among contractors and cooperation partners?
         isa: 6.1.1
-        reference: 
+        reference: 'ISO 27001: A.15.1, A.15.2.1'
         objective: An appropriate level of information security is also maintained while collaborating with cooperation partners and contractors.
         must: |
           + Contractors and cooperation partners are subjected to a risk assessment with regard to information security.
