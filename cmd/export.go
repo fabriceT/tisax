@@ -27,13 +27,14 @@ import (
 )
 
 const resultCatalogHeader = `
-
 ### %s
 
  ISA | Question | Maturité
 -----|----------|---------
 `
 
+var outputfile string
+var summary bool
 var exportCmd = &cobra.Command{
 	Use:   "export",
 	Short: "export tisax report to a PDF File",
@@ -45,8 +46,7 @@ var exportCmd = &cobra.Command{
 		evaluation.LoadYAML(yamlFile)
 
 		/* Markdown content for results table
-
-		## Résultats
+		## Synthèse
 
 		### Catalog
 
@@ -55,8 +55,8 @@ var exportCmd = &cobra.Command{
 		X.X | What?    |   0  :D
 		*/
 
-		var synthesisBuilder strings.Builder
-		synthesisBuilder.WriteString("## Synthèse\n")
+		var summaryBuilder strings.Builder
+		summaryBuilder.WriteString("## Synthèse\n")
 
 		// We add head.md if it exists.
 		markdown.IncludeMDFile(evaldir + "/head.md")
@@ -66,7 +66,7 @@ var exportCmd = &cobra.Command{
 
 			markdown.AddCatalog(catalog)
 			// Results table starts
-			fmt.Fprintf(&synthesisBuilder, resultCatalogHeader, catalog.Catalog)
+			fmt.Fprintf(&summaryBuilder, resultCatalogHeader, catalog.Catalog)
 
 			for _, chapter := range catalog.Chapters {
 				markdown.AddChapter(chapter)
@@ -77,14 +77,14 @@ var exportCmd = &cobra.Command{
 						markdown.AddQuestion(question, result.MaturityLevel, result.Text)
 
 						// Add item in results table
-						if result.Text == "" {
+						if result.MaturityLevel == -1 {
 							// Not evaluated
-							fmt.Fprintf(&synthesisBuilder, "%s | %s | -\n",
+							fmt.Fprintf(&summaryBuilder, "%s | %s | -\n",
 								question.Isa,
 								question.Name)
 						} else {
-							// | ISA) Question | Note Icon |
-							fmt.Fprintf(&synthesisBuilder, "%s | %s | %d %s\n",
+							// ISA | Question | Note Icon
+							fmt.Fprintf(&summaryBuilder, "%s | %s | %d %s\n",
 								question.Isa,
 								question.Name,
 								result.MaturityLevel,
@@ -96,21 +96,18 @@ var exportCmd = &cobra.Command{
 			}
 		}
 
-		markdown.IncludeMDFile(evaldir + "/end.md")
-
-		if synthesis {
+		if summary {
 			// On inclus la Synthese
-			markdown.IncludeMDContent(synthesisBuilder.String())
+			markdown.IncludeMDContent(summaryBuilder.String())
 		}
 
+		markdown.IncludeMDFile(evaldir + "/footer.md")
 		markdown.Save(outputfile)
 	},
 }
-var outputfile string
-var synthesis bool
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&outputfile, "output", "evaluation.html", "where to store HTML result")
-	rootCmd.PersistentFlags().BoolVar(&synthesis, "synthesis", true, "Add synthesis to document")
+	rootCmd.PersistentFlags().BoolVar(&summary, "summary", true, "Add summary to document")
 	rootCmd.AddCommand(exportCmd)
 }

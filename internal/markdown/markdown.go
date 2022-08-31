@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/FabriceT/tisax/internal"
 	"github.com/FabriceT/tisax/internal/models"
@@ -13,7 +14,7 @@ import (
 )
 
 var (
-	md string = ""
+	md strings.Builder
 	p  *parser.Parser
 )
 
@@ -23,37 +24,39 @@ func init() {
 }
 
 func AddCatalog(catalog models.CatalogEntry) {
-	md += fmt.Sprintf("## %s\n", catalog.Catalog)
+	fmt.Fprintf(&md, "## %s\n", catalog.Catalog)
 }
 
 func AddChapter(chapter models.ChaptersEntry) {
-	md += fmt.Sprintf("### %s) %s\n", chapter.Isa, chapter.Chapter)
+	fmt.Fprintf(&md, "### %s) %s\n", chapter.Isa, chapter.Chapter)
 }
 
 func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string) {
-	md += fmt.Sprintf("#### %s) %s\n", question.Isa, question.Name)
+
+	// On empêche l'affichage de valeur négative (pas d'évaluation)
+	if maturityLevel < 0 {
+		maturityLevel = 0
+	}
+
+	fmt.Fprintf(&md, "#### %s) %s\n", question.Isa, question.Name)
 
 	if question.Objective != "" {
-		md += fmt.Sprintf("* <span>Objectif</span> : %s\n",
-			question.Objective)
+		fmt.Fprintf(&md, "* <span>Objectif</span> : %s\n", question.Objective)
 	}
 
 	if question.Reference != "" {
-		md += fmt.Sprintf("* <span>Référence</span> : %s\n",
-			question.Reference)
+		fmt.Fprintf(&md, "* <span>Référence</span> : %s\n", question.Reference)
 	}
 
 	if text != "" {
-		md += fmt.Sprintf("* <span>Niveau maturité</span> : %d %s\n\n",
+		fmt.Fprintf(&md, "* <span>Niveau maturité</span> : %d %s\n\n",
 			maturityLevel,
 			internal.GetMaturityIcon(maturityLevel))
-
-		md += fmt.Sprintf("<div class='eval evaltext%d'>%s</div>\n",
+		fmt.Fprintf(&md, "<div class='eval evaltext%d'>\n%s</div>\n",
 			maturityLevel,
 			text)
-
 	} else {
-		md += "\nNon évalué\n"
+		md.WriteString("\nNon évalué\n")
 	}
 }
 
@@ -65,15 +68,16 @@ func IncludeMDFile(filename string) {
 	}
 
 	// On ajoute un saut de ligne pour ne pas interférer avec la suite du markdown
-	md += string(content) + "\n"
+	md.Write(content)
+	md.WriteByte('\n')
 }
 
 func IncludeMDContent(content string) {
-	md += string(content)
+	md.WriteString(content)
 }
 
 func AddLine() {
-	md += "***\n"
+	md.WriteString("***\n")
 }
 
 func Save(filename string) {
@@ -92,7 +96,7 @@ func Save(filename string) {
 		CSS:   "style.css",
 	}
 	renderer := html.NewRenderer(opts)
-	html := markdown.ToHTML([]byte(md), p, renderer)
+	html := markdown.ToHTML([]byte(md.String()), p, renderer)
 
 	_, err2 := f.Write(html)
 	if err2 != nil {
