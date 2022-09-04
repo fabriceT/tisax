@@ -46,8 +46,7 @@ var checkCmd = &cobra.Command{
 
 				for _, q := range questions {
 					// On se fiche de l'erreur
-					questionPath, _ := q.GetQuestionResultPath(path.Join(evaldir, catalog.Catalog))
-					result, _ := evaluation.LoadEvaluationResult(questionPath)
+					result, _ := q.GetResult(path.Join(evaldir, catalog.Catalog))
 
 					fmt.Printf(" %s) %s - %d %s\n",
 						q.Isa,

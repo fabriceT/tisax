@@ -72,8 +72,7 @@ var exportCmd = &cobra.Command{
 				markdown.AddChapter(chapter)
 				for _, assessment := range chapter.Assessments {
 					for _, question := range assessment.Questions {
-						path, _ := question.GetQuestionResultPath(path.Join(evaldir, catalog.Catalog))
-						result, _ := evaluation.LoadEvaluationResult(path)
+						result, _ := question.GetResult(path.Join(evaldir, catalog.Catalog))
 						markdown.AddQuestion(question, result.MaturityLevel, result.Text)
 
 						// Add item in results table

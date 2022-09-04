@@ -1,8 +1,13 @@
 package models
 
 import (
+	"bufio"
 	"errors"
+	"fmt"
+	"os"
 	"path"
+	"regexp"
+	"strconv"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -15,6 +20,11 @@ type QuestionEntry struct {
 	Objective string `yaml:"objective"`
 	Must      string `yaml:"must"`
 	Should    string `yaml:"should"`
+}
+
+type EvaluationResult struct {
+	MaturityLevel int64
+	Text          string
 }
 
 type AssessmentsEntry struct {
@@ -86,4 +96,49 @@ func (q *QuestionEntry) GetQuestionResultPath(basepath string) (string, error) {
 	}
 
 	return path.Join(basepath, strings.ToLower(q.Isa)+".md"), nil
+}
+
+func (q *QuestionEntry) GetResult(basepath string) (EvaluationResult, error) {
+	eval := EvaluationResult{
+		MaturityLevel: -1,
+		Text:          "",
+	}
+
+	if q.Isa == "" {
+		return eval, errors.New("question doesn't contains ISA code")
+	}
+
+	filename := path.Join(basepath, strings.ToLower(q.Isa)+".md")
+
+	re, err := regexp.Compile(`NOTE=(\d)`)
+	if err != nil {
+		panic("Woops")
+	}
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return eval, err
+	}
+	defer file.Close()
+
+	eval.Text = ""
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if re.Match([]byte(line)) {
+			results := re.FindStringSubmatch(line)
+			// TODO Add check
+			eval.MaturityLevel, _ = strconv.ParseInt(results[1], 10, 4)
+		} else {
+			eval.Text += line + "\n"
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println(err)
+	}
+
+	return eval, nil
+
 }
