@@ -90,14 +90,6 @@ func (c *ChaptersEntry) GetAllQuestions() (results []QuestionEntry) {
 	return
 }
 
-func (q *QuestionEntry) GetQuestionResultPath(basepath string) (string, error) {
-	if q.Isa == "" {
-		return "", errors.New("question doesn't contains ISA code")
-	}
-
-	return path.Join(basepath, strings.ToLower(q.Isa)+".md"), nil
-}
-
 func (q *QuestionEntry) GetResult(basepath string) (EvaluationResult, error) {
 	eval := EvaluationResult{
 		MaturityLevel: -1,

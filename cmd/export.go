@@ -27,10 +27,8 @@ import (
 )
 
 const resultCatalogHeader = `
-### %s
-
  ISA | Question | Maturité
------|----------|---------
+:---:|----------|:-------:
 `
 
 var outputfile string
@@ -48,11 +46,12 @@ var exportCmd = &cobra.Command{
 		/* Markdown content for results table
 		## Synthèse
 
-		### Catalog
-
 		ISA | Question | Maturité
-		----|----------|---------
+		----|----------|:-------:
 		X.X | What?    |   0  :D
+		Table: qqchos
+
+		...
 		*/
 
 		var summaryBuilder strings.Builder
@@ -66,7 +65,7 @@ var exportCmd = &cobra.Command{
 
 			markdown.AddCatalog(catalog)
 			// Results table starts
-			fmt.Fprintf(&summaryBuilder, resultCatalogHeader, catalog.Catalog)
+			fmt.Fprintf(&summaryBuilder, resultCatalogHeader)
 
 			for _, chapter := range catalog.Chapters {
 				markdown.AddChapter(chapter)
@@ -93,6 +92,7 @@ var exportCmd = &cobra.Command{
 					markdown.AddLine()
 				}
 			}
+			fmt.Fprintf(&summaryBuilder, "Table: Maturité: %s\n", catalog.Catalog)
 		}
 
 		if summary {

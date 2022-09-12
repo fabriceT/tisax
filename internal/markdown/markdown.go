@@ -38,7 +38,9 @@ func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string
 		maturityLevel = 0
 	}
 
-	fmt.Fprintf(&md, "#### %s) %s\n", question.Isa, question.Name)
+	fmt.Fprintf(&md, "#### %s) %s\n\n", question.Isa, question.Name)
+
+	fmt.Fprintf(&md, "{.evaltext%d}\n", maturityLevel)
 
 	if question.Objective != "" {
 		fmt.Fprintf(&md, "* <span>Objectif</span> : %s\n", question.Objective)
@@ -48,15 +50,16 @@ func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string
 		fmt.Fprintf(&md, "* <span>Référence</span> : %s\n", question.Reference)
 	}
 
+	if question.Reference != "" {
+		fmt.Fprintf(&md, "* <span>Maturité</span> : %d %s\n", maturityLevel, internal.GetMaturityIcon(maturityLevel))
+	}
+
+	fmt.Fprint(&md, "\n")
+
 	if text != "" {
-		fmt.Fprintf(&md, "* <span>Niveau maturité</span> : %d %s\n\n",
-			maturityLevel,
-			internal.GetMaturityIcon(maturityLevel))
-		fmt.Fprintf(&md, "<div class='eval evaltext%d'>\n%s</div>\n",
-			maturityLevel,
-			text)
+		fmt.Fprintf(&md, "%s\n", text)
 	} else {
-		md.WriteString("\nNon évalué\n")
+		md.WriteString("Non évalué\n")
 	}
 }
 
@@ -102,4 +105,11 @@ func Save(filename string) {
 	if err2 != nil {
 		log.Fatal(err2)
 	}
+
+	/*
+		f2, err := os.Create("cr.md")
+		defer f2.Close()
+
+		f2.Write([]byte(md.String()))
+	*/
 }
