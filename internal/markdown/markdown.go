@@ -28,7 +28,7 @@ func AddCatalog(catalog models.CatalogEntry) {
 }
 
 func AddChapter(chapter models.ChaptersEntry) {
-	fmt.Fprintf(&md, "### %s) %s\n", chapter.Isa, chapter.Chapter)
+	fmt.Fprintf(&md, "### %s) %s {#%s}\n", chapter.Isa, chapter.Chapter, chapter.Isa)
 }
 
 func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string) {
@@ -38,7 +38,7 @@ func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string
 		maturityLevel = 0
 	}
 
-	fmt.Fprintf(&md, "#### %s) %s\n\n", question.Isa, question.Name)
+	fmt.Fprintf(&md, "#### %s) %s {#%s}\n\n", question.Isa, question.Name, question.Isa)
 
 	fmt.Fprintf(&md, "{.evaltext%d}\n", maturityLevel)
 

@@ -39,6 +39,16 @@ blockquote {
     color: #1f1f1f;
     box-shadow: inset 5px 0 5px -5px #000000;
     padding-left: 1em;
+    margin-left: 1em;
+}
+
+figure {
+    margin-left: 1em;
+}
+
+figcaption {
+    font-size: 0.8em;
+    font-style: italic;
 }
 
 .objective {
