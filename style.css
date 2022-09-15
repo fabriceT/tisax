@@ -31,7 +31,7 @@ tbody > tr:nth-child(2n+1)  {
 }
 
 thead > tr  {
-    background-color: rgb(171, 171, 171);
+    background-color: rgb(200, 197, 197);
 }
 
 blockquote {
@@ -84,16 +84,8 @@ aside {
 
 aside > p {
     margin: .5rem;
+    break-after: always;
 }
-
-/*
-.objective+ul { 
-    padding-left: 20px;
-    margin-top: 0;
-    margin-left: 0;
-    font-style: italic;
-}
-*/
 
 hr { 
     width: 40%;
@@ -105,9 +97,9 @@ hr {
 }
 
 .evaltext0, .evaltext1, .evaltext2, .evaltext3, .evaltext4, .evaltext5 { 
-    /*margin-left: 0.5em;*/
-    padding-left: -0.2em;
+    padding-left: 1em;
 }
+
 .evaltext0 { 
     border-left: 5px solid black;
 }
@@ -124,8 +116,9 @@ hr {
     border-left: 5px solid green;
 }
 
-.remarque, li span {
-    text-decoration: underline;     
+.remarque li span {
+    text-decoration: underline;   
+    float: none
 }
 
 .msgblock {
@@ -150,6 +143,32 @@ hr {
     background-color: #e9fd8d;
     color: black;
     box-shadow: inset 5px 0 5px -5px #e05d06;
+}
+
+.must:before, .should:before, .objective:before {
+    color: white;
+    font-weight: bold;
+    margin-right: 1em;
+}
+
+.must:before {
+    content: "\00a0MUST\00a0";
+    background-color: red;
+}
+
+.should:before {
+    content: "\00a0SHOULD\00a0";
+    background-color: chocolate;
+}
+
+.objective:before {
+    content: " \00a0OBJECTIVE\00a0";
+    background-color: black;
+}
+
+.must, .should, .objective {
+    font-size: 0.8em;
+    padding-left: 2em;
 }
 
 .center {

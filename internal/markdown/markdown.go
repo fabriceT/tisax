@@ -40,24 +40,31 @@ func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string
 
 	fmt.Fprintf(&md, "#### %s) %s {#%s}\n\n", question.Isa, question.Name, question.Isa)
 
-	fmt.Fprintf(&md, "{.evaltext%d}\n", maturityLevel)
+	if question.Must != "" {
+		fmt.Fprintf(&md, "{.must .evaltext%d}\n%s\n", maturityLevel, question.Must)
+	}
+
+	if question.Should != "" {
+		fmt.Fprintf(&md, "{.should}\n%s\n", question.Should)
+	}
 
 	if question.Objective != "" {
-		fmt.Fprintf(&md, "* <span>Objectif</span> : %s\n", question.Objective)
-	}
-
-	if question.Reference != "" {
-		fmt.Fprintf(&md, "* <span>Référence</span> : %s\n", question.Reference)
-	}
-
-	if question.Reference != "" {
-		fmt.Fprintf(&md, "* <span>Maturité</span> : %d %s\n", maturityLevel, internal.GetMaturityIcon(maturityLevel))
+		fmt.Fprintf(&md, "{.objective}\n%s\n\n", question.Objective)
 	}
 
 	fmt.Fprint(&md, "\n")
 
 	if text != "" {
-		fmt.Fprintf(&md, "%s\n", text)
+		in := strings.ReplaceAll(text, "%NAME%", question.Name)
+		in = strings.ReplaceAll(in, "%ISA%", question.Isa)
+		in = strings.ReplaceAll(in, "%REFERENCE%", question.Reference)
+		in = strings.ReplaceAll(in, "%OBJECTIVE%", question.Reference)
+		in = strings.ReplaceAll(in, "%MUST%", question.Must)
+		in = strings.ReplaceAll(in, "%SHOULD%", question.Should)
+		in = strings.ReplaceAll(in, "%MATURITY_LEVEL%", fmt.Sprintf("%d", maturityLevel))
+		in = strings.ReplaceAll(in, "%MATURITY_ICON%", internal.GetMaturityIcon(maturityLevel))
+
+		fmt.Fprintf(&md, "%s\n", in)
 	} else {
 		md.WriteString("Non évalué\n")
 	}
@@ -106,10 +113,9 @@ func Save(filename string) {
 		log.Fatal(err2)
 	}
 
-	/*
-		f2, err := os.Create("cr.md")
-		defer f2.Close()
+	f2, _ := os.Create("cr.md")
+	defer f2.Close()
 
-		f2.Write([]byte(md.String()))
-	*/
+	f2.Write([]byte(md.String()))
+
 }
