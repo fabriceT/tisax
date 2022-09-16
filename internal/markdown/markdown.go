@@ -6,7 +6,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/FabriceT/tisax/internal"
 	"github.com/FabriceT/tisax/internal/models"
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
@@ -24,11 +23,13 @@ func init() {
 }
 
 func AddCatalog(catalog models.CatalogEntry) {
-	fmt.Fprintf(&md, "## %s\n", catalog.Catalog)
+	fmt.Fprintf(&md, "## %s", catalog.Catalog)
+	AddNewLine()
 }
 
 func AddChapter(chapter models.ChaptersEntry) {
-	fmt.Fprintf(&md, "### %s) %s {#%s}\n", chapter.Isa, chapter.Chapter, chapter.Isa)
+	fmt.Fprintf(&md, "### %s) %s {#%s}", chapter.Isa, chapter.Chapter, chapter.Isa)
+	AddNewLine()
 }
 
 func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string) {
@@ -55,19 +56,12 @@ func AddQuestion(question models.QuestionEntry, maturityLevel int64, text string
 	fmt.Fprint(&md, "\n")
 
 	if text != "" {
-		in := strings.ReplaceAll(text, "%NAME%", question.Name)
-		in = strings.ReplaceAll(in, "%ISA%", question.Isa)
-		in = strings.ReplaceAll(in, "%REFERENCE%", question.Reference)
-		in = strings.ReplaceAll(in, "%OBJECTIVE%", question.Reference)
-		in = strings.ReplaceAll(in, "%MUST%", question.Must)
-		in = strings.ReplaceAll(in, "%SHOULD%", question.Should)
-		in = strings.ReplaceAll(in, "%MATURITY_LEVEL%", fmt.Sprintf("%d", maturityLevel))
-		in = strings.ReplaceAll(in, "%MATURITY_ICON%", internal.GetMaturityIcon(maturityLevel))
-
+		in := strings.ReplaceAll(text, "%REFERENCE%", question.Reference)
 		fmt.Fprintf(&md, "%s\n", in)
 	} else {
 		md.WriteString("Non évalué\n")
 	}
+	AddNewLine()
 }
 
 func IncludeMDFile(filename string) {
@@ -79,15 +73,16 @@ func IncludeMDFile(filename string) {
 
 	// On ajoute un saut de ligne pour ne pas interférer avec la suite du markdown
 	md.Write(content)
-	md.WriteByte('\n')
+	AddNewLine()
 }
 
 func IncludeMDContent(content string) {
 	md.WriteString(content)
+	AddNewLine()
 }
 
-func AddLine() {
-	md.WriteString("***\n")
+func AddNewLine() {
+	md.WriteByte('\n')
 }
 
 func Save(filename string) {

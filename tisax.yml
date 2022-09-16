@@ -417,7 +417,8 @@ catalogs:
         isa: 5.2.1
         reference: 'IS0 27001: A.12.1.2'
         objective: The objective is to ensure that information security aspects are considered in case of any changes to the organization, business processes and IT systems (Change Management) in order to prevent these changes from causing an uncontrolled reduction in the information security level. 
-        must: + Information security requirements for changes to the organization, business processes, IT systems are determined and applied.
+        must: |
+          + Information security requirements for changes to the organization, business processes, IT systems are determined and applied.
         should: |
           + A formal approval procedure is established.
           + Changes are verified and assessed for their potential impact on the information security.

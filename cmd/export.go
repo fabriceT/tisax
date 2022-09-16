@@ -23,10 +23,11 @@ import (
 	"github.com/FabriceT/tisax/internal"
 	"github.com/FabriceT/tisax/internal/evaluation"
 	"github.com/FabriceT/tisax/internal/markdown"
+	"github.com/FabriceT/tisax/internal/models"
 	"github.com/spf13/cobra"
 )
 
-const resultCatalogHeader = `
+const syntheseTableHeader = `
  ISA | Question | Maturité
 :---:|----------|:-------:
 `
@@ -51,7 +52,6 @@ var exportCmd = &cobra.Command{
 		X.X | What?    |   0  :D
 		Table: qqchos
 
-		...
 		*/
 
 		var summaryBuilder strings.Builder
@@ -64,8 +64,7 @@ var exportCmd = &cobra.Command{
 		for _, catalog := range catalogs {
 
 			markdown.AddCatalog(catalog)
-			// Results table starts
-			fmt.Fprintf(&summaryBuilder, resultCatalogHeader)
+			SummaryBeginTable(&summaryBuilder)
 
 			for _, chapter := range catalog.Chapters {
 				markdown.AddChapter(chapter)
@@ -73,26 +72,13 @@ var exportCmd = &cobra.Command{
 					for _, question := range assessment.Questions {
 						result, _ := question.GetResult(path.Join(evaldir, catalog.Catalog))
 						markdown.AddQuestion(question, result.MaturityLevel, result.Text)
-
-						// Add item in results table
-						if result.MaturityLevel == -1 {
-							// Not evaluated
-							fmt.Fprintf(&summaryBuilder, "%s | %s | -\n",
-								question.Isa,
-								question.Name)
-						} else {
-							// ISA | Question | Note Icon
-							fmt.Fprintf(&summaryBuilder, "%s | %s | %d %s\n",
-								question.Isa,
-								question.Name,
-								result.MaturityLevel,
-								internal.GetMaturityIcon(result.MaturityLevel))
-						}
+						SummaryAddResult(&summaryBuilder, question, result)
 					}
-					markdown.AddLine()
+					markdown.AddNewLine()
 				}
 			}
-			fmt.Fprintf(&summaryBuilder, "Table: Maturité: %s\n", catalog.Catalog)
+
+			SummaryEndTable(&summaryBuilder, fmt.Sprintf("Maturité: %s\n", catalog.Catalog))
 		}
 
 		if summary {
@@ -103,6 +89,35 @@ var exportCmd = &cobra.Command{
 		markdown.IncludeMDFile(evaldir + "/footer.md")
 		markdown.Save(outputfile)
 	},
+}
+
+func SummaryBeginTable(builder *strings.Builder) {
+	builder.WriteString(syntheseTableHeader)
+}
+
+func SummaryEndTable(builder *strings.Builder, text string) {
+	fmt.Fprintf(builder, "Table: %s\n", text)
+}
+
+func SummaryAddResult(builder *strings.Builder, question models.QuestionEntry, result models.EvaluationResult) {
+	if result.MaturityLevel == -1 {
+		// Not evaluated
+		//|-----|----------|-----------|
+		//| ISA | Question |  -        |
+		//|-----|----------|-----------|
+		fmt.Fprintf(builder, "%s | %s | -\n",
+			question.Isa,
+			question.Name)
+	} else {
+		//|-----|----------|-----------|
+		//| ISA | Question | Note Icon |
+		//|-----|----------|-----------|
+		fmt.Fprintf(builder, "%s | %s | %d %s\n",
+			question.Isa,
+			question.Name,
+			result.MaturityLevel,
+			internal.GetMaturityIcon(result.MaturityLevel))
+	}
 }
 
 func init() {
